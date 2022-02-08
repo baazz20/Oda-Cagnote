@@ -1,99 +1,294 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
-import 'package:sticky_grouped_list/sticky_grouped_list.dart';
+import 'package:swipeable_tile/swipeable_tile.dart';
+import 'package:vibration/vibration.dart';
 
-List<Element> _elements = <Element>[
-  Element(DateTime(2020, 6, 24, 18), 'Got to gym', Icons.fitness_center),
-  Element(DateTime(2020, 6, 24, 9), 'Work', Icons.work),
-  Element(DateTime(2020, 6, 25, 8), 'Buy groceries', Icons.shopping_basket),
-  Element(DateTime(2020, 6, 25, 16), 'Cinema', Icons.movie),
-  Element(DateTime(2020, 6, 25, 20), 'Eat', Icons.fastfood),
-  Element(DateTime(2020, 6, 26, 12), 'Car wash', Icons.local_car_wash),
-  Element(DateTime(2020, 6, 27, 12), 'Car wash', Icons.local_car_wash),
-  Element(DateTime(2020, 6, 27, 13), 'Car wash', Icons.local_car_wash),
-  Element(DateTime(2020, 6, 27, 14), 'Car wash', Icons.local_car_wash),
-  Element(DateTime(2020, 6, 27, 15), 'Car wash', Icons.local_car_wash),
-  Element(DateTime(2020, 6, 28, 12), 'Car wash', Icons.local_car_wash),
-  Element(DateTime(2020, 6, 29, 12), 'Car wash', Icons.local_car_wash),
-  Element(DateTime(2020, 6, 29, 12), 'Car wash', Icons.local_car_wash),
-  Element(DateTime(2020, 6, 30, 12), 'Car wash', Icons.local_car_wash),
-];
+import 'cardscreen.dart';
+import 'normalscreen.dart';
+import 'person.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _MyHomePageState extends State<MyHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return PageView(
+      physics: const ClampingScrollPhysics(),
+      children: const <Widget>[
+        NormalScreen(),
+        // CardScreen(),
+        // ChatReplyScreen(),
+      ],
+    );
+  }
+}
+
+
+
+
+
+
+
+class ChatReplyScreen extends StatefulWidget {
+  const ChatReplyScreen({Key? key}) : super(key: key);
+
+  @override
+  _ChatReplyScreenState createState() => _ChatReplyScreenState();
+}
+
+class _ChatReplyScreenState extends State<ChatReplyScreen> {
+  late TextEditingController _controller;
+  final FocusNode _focusNode = FocusNode();
+  Person? _selectedPerson;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Grouped List View Example'),
+        centerTitle: true,
+        title: const Text(
+          'Swipe To Reply',
+        ),
       ),
-      body: StickyGroupedListView<Element, DateTime>(
-        elements: _elements,
-        order: StickyGroupedListOrder.ASC,
-        groupBy: (Element element) =>
-            DateTime(element.date.year, element.date.month, element.date.day),
-        groupComparator: (DateTime value1, DateTime value2) =>
-            value2.compareTo(value1),
-        itemComparator: (Element element1, Element element2) =>
-            element1.date.compareTo(element2.date),
-        floatingHeader: true,
-        groupSeparatorBuilder: (Element element) => Container(
-          height: 50,
-          child: Align(
-            alignment: Alignment.center,
-            child: Container(
-              width: 120,
-              decoration: BoxDecoration(
-                color: Colors.blue[300],
-                border: Border.all(
-                  color: Colors.blue[300]!,
+      body: Column(
+        children: <Widget>[
+          Expanded(
+            child: ListView(children: <Widget>[
+              ...persons.map(
+                (Person person) => SwipeableTile.swipeToTigger(
+                  behavior: HitTestBehavior.translucent,
+                  isEelevated: false,
+                  color: Colors.white,
+                  swipeThreshold: 0.2,
+                  direction: SwipeDirection.endToStart,
+                  onSwiped: (_) {
+                    _focusNode.requestFocus();
+                    setState(() {
+                      _selectedPerson = person;
+                    });
+                  },
+                  backgroundBuilder: (
+                    _,
+                    SwipeDirection direction,
+                    AnimationController progress,
+                  ) {
+                    bool vibrated = false;
+                    return AnimatedBuilder(
+                      animation: progress,
+                      builder: (_, __) {
+                        if (progress.value > 0.9999 && !vibrated) {
+                          Vibration.vibrate(duration: 40);
+                          vibrated = true;
+                        } else if (progress.value < 0.9999) {
+                          vibrated = false;
+                        }
+                        return Container(
+                          alignment: Alignment.centerRight,
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 16.0),
+                            child: Transform.scale(
+                              scale: Tween<double>(
+                                begin: 0.0,
+                                end: 1.2,
+                              )
+                                  .animate(
+                                    CurvedAnimation(
+                                      parent: progress,
+                                      curve: const Interval(0.5, 1.0,
+                                          curve: Curves.linear),
+                                    ),
+                                  )
+                                  .value,
+                              child: Icon(
+                                Icons.reply,
+                                color: Colors.black.withOpacity(0.7),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  key: UniqueKey(),
+                  child: MessageBubble(
+                    url: person.imageURL,
+                    message: person.message,
+                    name: person.name,
+                  ),
                 ),
-                borderRadius: BorderRadius.all(Radius.circular(20.0)),
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  '${element.date.day}. ${element.date.month}, ${element.date.year}',
-                  textAlign: TextAlign.center,
+            ]),
+          ),
+          ClipRect(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 20.0, sigmaY: 20.0),
+              child: Container(
+                color: Colors.grey.shade200.withOpacity(0.5),
+                child: SafeArea(
+                  top: false,
+                  child: Column(
+                    children: <Widget>[
+                      _selectedPerson != null
+                          ? Container(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 4.0),
+                              child: Row(
+                                children: <Widget>[
+                                  const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Icon(
+                                      Icons.reply_rounded,
+                                      color: Colors.blue,
+                                      size: 30,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 8.0,
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          _selectedPerson!.name,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16,
+                                            color: Colors.blue,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 4.0,
+                                        ),
+                                        Text(
+                                          _selectedPerson!.message,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        _selectedPerson = null;
+                                      });
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(16.0),
+                                      child: Icon(
+                                        Icons.close,
+                                        color: Colors.black.withOpacity(0.6),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : const SizedBox.shrink(),
+                      TextField(
+                        controller: _controller,
+                        focusNode: _focusNode,
+                        onSubmitted: (_) {
+                          _focusNode.canRequestFocus;
+                        },
+                        decoration: InputDecoration(
+                          // filled: true,
+                          // fillColor: Color(0xFFe8e6d5)
+                          contentPadding: const EdgeInsets.all(16),
+                          hintText: 'Type your message',
+                          suffixIcon: IconButton(
+                            icon: const Icon(Icons.send),
+                            onPressed: () {},
+                          ),
+                          enabledBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide.none),
+                          border: const UnderlineInputBorder(
+                              borderSide: BorderSide.none),
+
+                          // ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-        itemBuilder: (_, Element element) {
-          return Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(6.0),
-            ),
-            elevation: 8.0,
-            margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-            child: Container(
-              child: ListTile(
-                contentPadding:
-                    EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                leading: Icon(element.icon),
-                title: Text(element.matricule),
-                trailing: Text('${element.date.hour}:00'),
-              ),
-            ),
-          );
-        },
+        ],
       ),
     );
   }
 }
 
-class Element {
-  DateTime date;
-  String matricule;
-  IconData image;
+class MessageBubble extends StatelessWidget {
+  final String name;
+  final String message;
+  final String url;
+  const MessageBubble({
+    Key? key,
+    required this.message,
+    required this.name,
+    required this.url,
+  }) : super(key: key);
 
-  Element(this.date, this.matricule, this.image);
-
-  IconData? get icon => null;
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(top: 16.0, left: 16.0),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(48),
+            child: Image.network(
+              url,
+              width: 48,
+              height: 48,
+            ),
+          ),
+        ),
+        Expanded(
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            margin: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+                color: const Color(0xFFa1ffb7),
+                borderRadius: BorderRadius.circular(16)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  name,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 18,
+                      color: Color(0xFF457d52)),
+                ),
+                const SizedBox(
+                  height: 8.0,
+                ),
+                Text(message),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 }
+

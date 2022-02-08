@@ -17,6 +17,7 @@ INJECTED from /Users/admin-oda/Desktop/Yao_Eloge/Oda-Cagnote/android/app/src/mai
 INJECTED from /Users/admin-oda/Desktop/Yao_Eloge/Oda-Cagnote/android/app/src/main/AndroidManifest.xml:1:1-34:12
 INJECTED from /Users/admin-oda/Desktop/Yao_Eloge/Oda-Cagnote/android/app/src/main/AndroidManifest.xml:1:1-34:12
 MERGED from /Users/admin-oda/Desktop/Yao_Eloge/Oda-Cagnote/android/app/src/main/AndroidManifest.xml:1:1-34:12
+MERGED from [:vibration] /Users/admin-oda/Desktop/Yao_Eloge/Oda-Cagnote/build/vibration/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [androidx.window:window-java:1.0.0-beta04] /Users/admin-oda/.gradle/caches/transforms-2/files-2.1/ad201fac15a88598107ec645f351f5b4/jetified-window-java-1.0.0-beta04/AndroidManifest.xml:17:1-23:12
 MERGED from [androidx.window:window:1.0.0-beta04] /Users/admin-oda/.gradle/caches/transforms-2/files-2.1/03c633e46d75bfb21f082f0417f55161/jetified-window-1.0.0-beta04/AndroidManifest.xml:17:1-33:12
 MERGED from [androidx.fragment:fragment:1.1.0] /Users/admin-oda/.gradle/caches/transforms-2/files-2.1/8601dd65e0c6893d5abc5ccde1e2cab3/fragment-1.1.0/AndroidManifest.xml:17:1-24:12
@@ -55,6 +56,8 @@ uses-sdk
 INJECTED from /Users/admin-oda/Desktop/Yao_Eloge/Oda-Cagnote/android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/admin-oda/Desktop/Yao_Eloge/Oda-Cagnote/android/app/src/main/AndroidManifest.xml
 INJECTED from /Users/admin-oda/Desktop/Yao_Eloge/Oda-Cagnote/android/app/src/main/AndroidManifest.xml
+MERGED from [:vibration] /Users/admin-oda/Desktop/Yao_Eloge/Oda-Cagnote/build/vibration/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:vibration] /Users/admin-oda/Desktop/Yao_Eloge/Oda-Cagnote/build/vibration/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [androidx.window:window-java:1.0.0-beta04] /Users/admin-oda/.gradle/caches/transforms-2/files-2.1/ad201fac15a88598107ec645f351f5b4/jetified-window-java-1.0.0-beta04/AndroidManifest.xml:19:5-21:41
 MERGED from [androidx.window:window-java:1.0.0-beta04] /Users/admin-oda/.gradle/caches/transforms-2/files-2.1/ad201fac15a88598107ec645f351f5b4/jetified-window-java-1.0.0-beta04/AndroidManifest.xml:19:5-21:41
 MERGED from [androidx.window:window:1.0.0-beta04] /Users/admin-oda/.gradle/caches/transforms-2/files-2.1/03c633e46d75bfb21f082f0417f55161/jetified-window-1.0.0-beta04/AndroidManifest.xml:20:5-22:41
@@ -101,6 +104,10 @@ uses-permission#android.permission.INTERNET
 ADDED from /Users/admin-oda/Desktop/Yao_Eloge/Oda-Cagnote/android/app/src/debug/AndroidManifest.xml:6:5-66
 	android:name
 		ADDED from /Users/admin-oda/Desktop/Yao_Eloge/Oda-Cagnote/android/app/src/debug/AndroidManifest.xml:6:22-64
+uses-permission#android.permission.VIBRATE
+ADDED from [:vibration] /Users/admin-oda/Desktop/Yao_Eloge/Oda-Cagnote/build/vibration/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-66
+	android:name
+		ADDED from [:vibration] /Users/admin-oda/Desktop/Yao_Eloge/Oda-Cagnote/build/vibration/intermediates/library_manifest/debug/AndroidManifest.xml:7:22-63
 uses-library#androidx.window.extensions
 ADDED from [androidx.window:window:1.0.0-beta04] /Users/admin-oda/.gradle/caches/transforms-2/files-2.1/03c633e46d75bfb21f082f0417f55161/jetified-window-1.0.0-beta04/AndroidManifest.xml:25:9-27:40
 	android:required

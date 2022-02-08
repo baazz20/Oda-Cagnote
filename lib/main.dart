@@ -1,20 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:oda_cagnote/homePage.dart';
-import 'package:sticky_grouped_list/sticky_grouped_list.dart';
+
+import 'homePage.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primaryTextTheme: TextTheme(
+          headline6: TextStyle(color: Colors.grey[800]),
         ),
-        home: HomePage());
+        appBarTheme: const AppBarTheme(
+          color: Colors.white,
+          elevation: 0.0,
+        ),
+        primarySwatch: Colors.blue,
+        canvasColor: Colors.white54,
+      ),
+      home: MyHomePage(),
+    );
   }
 }
