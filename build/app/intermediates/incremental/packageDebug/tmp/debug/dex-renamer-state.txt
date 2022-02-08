@@ -1,0 +1,4 @@
+#Tue Feb 08 14:57:17 GMT 2022
+base.0=/Users/admin-oda/Desktop/Yao_Eloge/Oda-Cagnote/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
