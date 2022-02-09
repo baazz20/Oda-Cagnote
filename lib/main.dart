@@ -14,15 +14,22 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        primaryTextTheme: TextTheme(
-          headline6: TextStyle(color: Colors.grey[800]),
+        colorScheme: ColorScheme(
+          brightness: Brightness.light,
+          primary: Color.fromARGB(255, 228, 188, 129),
+          onPrimary: Colors.black,
+          // Colors that are not relevant to AppBar in LIGHT mode:
+          primaryVariant: Colors.grey,
+          secondary: Colors.grey,
+          secondaryVariant: Colors.grey,
+          onSecondary: Colors.grey,
+          background: Colors.grey,
+          onBackground: Colors.grey,
+          surface: Colors.grey,
+          onSurface: Colors.grey,
+          error: Colors.grey,
+          onError: Colors.grey,
         ),
-        appBarTheme: const AppBarTheme(
-          color: Colors.white,
-          elevation: 0.0,
-        ),
-        primarySwatch: Colors.blue,
-        canvasColor: Colors.white54,
       ),
       home: MyHomePage(),
     );

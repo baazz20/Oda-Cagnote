@@ -8,4 +8,4 @@ A new Flutter project.
 
 Pour Contribuer au projet sur Vs Code
 
-- [Visual Studio](https://prod.liveshare.vsengsaas.visualstudio.com/join?4143B4AEFF6DD1ECDC8394A0E1362B59FACB)
+- [Visual Studio](https://prod.liveshare.vsengsaas.visualstudio.com/join?5E52D80157711649755C32857D7C09688686)
